@@ -21,45 +21,25 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({
 }) => {
   return (
     <Card className="h-full flex flex-col transition-shadow hover:shadow-lg">
-      {item.image && (
-        <div className="relative h-48 overflow-hidden rounded-t-lg">
-          <img 
-            src={item.image} 
-            alt={item.name}
-            className="w-full h-full object-cover transition-transform hover:scale-105"
-          />
-          <div className="absolute top-2 right-2">
-            <Badge variant={item.available ? "default" : "secondary"}>
-              {item.available ? "Disponível" : "Indisponível"}
-            </Badge>
-          </div>
-        </div>
-      )}
-      
       <CardHeader className="flex-1">
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <CardTitle className="text-lg font-bold">{item.name}</CardTitle>
-            <CardDescription className="mt-2 line-clamp-2">
-              {item.description}
+            <CardTitle className="text-lg font-bold">
+              {item.pizza?.name || `Pizza ${item.tamanho}`}
+            </CardTitle>
+            <CardDescription className="mt-2">
+              {item.pizza?.description || `Tamanho: ${item.tamanho}`}
             </CardDescription>
           </div>
           <Badge variant="outline" className="ml-2">
-            {item.category}
+            {item.tamanho}
           </Badge>
         </div>
         
         <div className="mt-4">
           <div className="text-2xl font-bold text-primary">
-            R$ {item.price.toFixed(2)}
+            R$ {item.valor.toFixed(2)}
           </div>
-          {item.ingredients && item.ingredients.length > 0 && (
-            <div className="mt-2">
-              <p className="text-sm text-muted-foreground">
-                <strong>Ingredientes:</strong> {item.ingredients.join(', ')}
-              </p>
-            </div>
-          )}
         </div>
       </CardHeader>
 

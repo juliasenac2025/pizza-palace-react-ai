@@ -13,24 +13,24 @@ class MenuApiService {
     return response.json();
   }
 
-  // GET /menu - Listar todos os itens do menu
+  // GET /cardapio - Listar todos os itens do cardápio
   async getAllMenuItems(): Promise<MenuItem[]> {
     console.log('Fetching all menu items...');
-    const response = await fetch(`${API_BASE_URL}/menu`);
+    const response = await fetch(`${API_BASE_URL}/cardapio`);
     return this.handleResponse<MenuItem[]>(response);
   }
 
-  // GET /menu/{id} - Obter item específico do menu
+  // GET /cardapio/{id} - Obter item específico do cardápio
   async getMenuItemById(id: number): Promise<MenuItem> {
     console.log(`Fetching menu item with id: ${id}`);
-    const response = await fetch(`${API_BASE_URL}/menu/${id}`);
+    const response = await fetch(`${API_BASE_URL}/cardapio/${id}`);
     return this.handleResponse<MenuItem>(response);
   }
 
-  // POST /menu - Criar novo item do menu
+  // POST /cardapio - Criar novo item do cardápio
   async createMenuItem(item: CreateMenuItemRequest): Promise<MenuItem> {
     console.log('Creating new menu item:', item);
-    const response = await fetch(`${API_BASE_URL}/menu`, {
+    const response = await fetch(`${API_BASE_URL}/cardapio`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,10 +40,10 @@ class MenuApiService {
     return this.handleResponse<MenuItem>(response);
   }
 
-  // PUT /menu/{id} - Atualizar item do menu
+  // PUT /cardapio/{id} - Atualizar item do cardápio
   async updateMenuItem(id: number, item: UpdateMenuItemRequest): Promise<MenuItem> {
     console.log(`Updating menu item ${id}:`, item);
-    const response = await fetch(`${API_BASE_URL}/menu/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/cardapio/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -53,10 +53,10 @@ class MenuApiService {
     return this.handleResponse<MenuItem>(response);
   }
 
-  // DELETE /menu/{id} - Remover item do menu
+  // DELETE /cardapio/{id} - Remover item do cardápio
   async deleteMenuItem(id: number): Promise<void> {
     console.log(`Deleting menu item with id: ${id}`);
-    const response = await fetch(`${API_BASE_URL}/menu/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/cardapio/${id}`, {
       method: 'DELETE',
     });
     

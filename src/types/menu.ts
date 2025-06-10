@@ -1,25 +1,22 @@
 
+export interface Pizza {
+  id: number;
+  name?: string;
+  description?: string;
+  // Adicione outros campos da Pizza conforme necessário
+}
+
 export interface MenuItem {
   id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image?: string;
-  ingredients?: string[];
-  available: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  valor: number;
+  tamanho: string;
+  pizza?: Pizza;
 }
 
 export interface CreateMenuItemRequest {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image?: string;
-  ingredients?: string[];
-  available: boolean;
+  valor: number;
+  tamanho: string;
+  pizza?: Pizza;
 }
 
 export interface UpdateMenuItemRequest extends Partial<CreateMenuItemRequest> {}

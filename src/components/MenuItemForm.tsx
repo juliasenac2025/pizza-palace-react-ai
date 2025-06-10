@@ -12,8 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 
 interface MenuItemFormProps {
   item?: MenuItem | null;
@@ -29,40 +27,25 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   onSubmit,
 }) => {
   const [formData, setFormData] = useState<CreateMenuItemRequest>({
-    name: '',
-    description: '',
-    price: 0,
-    category: '',
-    image: '',
-    ingredients: [],
-    available: true,
+    valor: 0,
+    tamanho: '',
+    pizza: undefined,
   });
-  const [ingredientsText, setIngredientsText] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (item) {
       setFormData({
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        category: item.category,
-        image: item.image || '',
-        ingredients: item.ingredients || [],
-        available: item.available,
+        valor: item.valor,
+        tamanho: item.tamanho,
+        pizza: item.pizza,
       });
-      setIngredientsText((item.ingredients || []).join(', '));
     } else {
       setFormData({
-        name: '',
-        description: '',
-        price: 0,
-        category: '',
-        image: '',
-        ingredients: [],
-        available: true,
+        valor: 0,
+        tamanho: '',
+        pizza: undefined,
       });
-      setIngredientsText('');
     }
   }, [item, open]);
 
@@ -70,17 +53,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
     e.preventDefault();
     setLoading(true);
 
-    const ingredients = ingredientsText
-      .split(',')
-      .map(ingredient => ingredient.trim())
-      .filter(ingredient => ingredient.length > 0);
-
-    const dataToSubmit = {
-      ...formData,
-      ingredients,
-    };
-
-    const success = await onSubmit(dataToSubmit);
+    const success = await onSubmit(formData);
     
     if (success) {
       onOpenChange(false);
@@ -100,85 +73,61 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
           </DialogTitle>
           <DialogDescription>
             {isEditing 
-              ? 'Edite as informações do item do menu.' 
-              : 'Preencha as informações para adicionar um novo item ao menu.'
+              ? 'Edite as informações do item do cardápio.' 
+              : 'Preencha as informações para adicionar um novo item ao cardápio.'
             }
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Nome *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="description">Descrição *</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              required
-            />
-          </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="price">Preço (R$) *</Label>
+              <Label htmlFor="valor">Valor (R$) *</Label>
               <Input
-                id="price"
+                id="valor"
                 type="number"
                 step="0.01"
                 min="0"
-                value={formData.price}
-                onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
+                value={formData.valor}
+                onChange={(e) => setFormData(prev => ({ ...prev, valor: parseFloat(e.target.value) || 0 }))}
                 required
               />
             </div>
 
             <div>
-              <Label htmlFor="category">Categoria *</Label>
+              <Label htmlFor="tamanho">Tamanho *</Label>
               <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                id="tamanho"
+                value={formData.tamanho}
+                onChange={(e) => setFormData(prev => ({ ...prev, tamanho: e.target.value }))}
+                placeholder="Ex: P, M, G, GG"
                 required
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="image">URL da Imagem</Label>
+            <Label htmlFor="pizzaId">ID da Pizza (opcional)</Label>
             <Input
-              id="image"
-              type="url"
-              value={formData.image}
-              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+              id="pizzaId"
+              type="number"
+              value={formData.pizza?.id || ''}
+              onChange={(e) => {
+                const id = parseInt(e.target.value);
+                if (id) {
+                  setFormData(prev => ({ 
+                    ...prev, 
+                    pizza: { ...prev.pizza, id } 
+                  }));
+                } else {
+                  setFormData(prev => ({ 
+                    ...prev, 
+                    pizza: undefined 
+                  }));
+                }
+              }}
+              placeholder="Digite o ID da pizza"
             />
-          </div>
-
-          <div>
-            <Label htmlFor="ingredients">Ingredientes (separados por vírgula)</Label>
-            <Textarea
-              id="ingredients"
-              value={ingredientsText}
-              onChange={(e) => setIngredientsText(e.target.value)}
-              placeholder="Mussarela, tomate, manjericão..."
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="available"
-              checked={formData.available}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, available: checked }))}
-            />
-            <Label htmlFor="available">Disponível</Label>
           </div>
 
           <DialogFooter>
