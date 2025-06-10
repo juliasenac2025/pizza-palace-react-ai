@@ -1,73 +1,179 @@
-# Welcome to your Lovable project
 
-## Project info
+# Pizza Menu Manager
 
-**URL**: https://lovable.dev/projects/e3475731-0c3a-4106-a960-32a463e4a30f
+Um aplicativo React moderno para gerenciar itens de menu de pizza com operações CRUD completas, desenvolvido para demonstrar habilidades de programação apoiada por IA.
 
-## How can I edit this code?
+## 🚀 Funcionalidades
 
-There are several ways of editing your application.
+- **Listagem de Itens**: Visualize todos os itens do menu com filtros por categoria e busca
+- **Detalhes do Item**: Visualização completa dos detalhes de cada item
+- **Adicionar Item**: Formulário para adicionar novos itens ao menu
+- **Editar Item**: Atualização de itens existentes
+- **Remover Item**: Exclusão de itens do menu
+- **Interface Responsiva**: Design moderno que funciona em todos os dispositivos
+- **Feedback Visual**: Mensagens de sucesso/erro e estados de carregamento
+- **Filtros Avançados**: Busca por nome/descrição e filtro por categoria
 
-**Use Lovable**
+## 🛠️ Tecnologias Utilizadas
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e3475731-0c3a-4106-a960-32a463e4a30f) and start prompting.
+- **React 18** - Biblioteca principal
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool e desenvolvimento
+- **Tailwind CSS** - Estilização
+- **shadcn/ui** - Componentes de interface
+- **Lucide React** - Ícones
+- **React Hook Form** - Gerenciamento de formulários
+- **Fetch API** - Consumo da API REST
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📋 Pré-requisitos
 
-**Use your preferred IDE**
+- Node.js 16+ 
+- npm ou yarn
+- API backend2025-pizzademo rodando
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🔧 Instalação
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone o repositório:
+```bash
+git clone <url-do-repositorio>
+cd pizza-menu-manager
+```
 
-Follow these steps:
+2. Instale as dependências:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Configure a URL da API:
+   - Abra o arquivo `src/services/menuApi.ts`
+   - Altere a variável `API_BASE_URL` para a URL da sua API backend2025-pizzademo
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4. Execute o projeto:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+5. Acesse http://localhost:5173 no seu navegador
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📊 Estrutura do Projeto
 
-**Use GitHub Codespaces**
+```
+src/
+├── components/          # Componentes reutilizáveis
+│   ├── MenuItemCard.tsx        # Card de exibição do item
+│   ├── MenuItemDetailModal.tsx # Modal de detalhes
+│   ├── MenuItemForm.tsx        # Formulário add/edit
+│   └── MenuManager.tsx         # Componente principal
+├── hooks/              # Hooks customizados
+│   └── useMenuItems.ts         # Hook para gerenciar estado
+├── services/           # Serviços de API
+│   └── menuApi.ts              # Cliente da API REST
+├── types/              # Definições de tipos
+│   └── menu.ts                 # Interfaces do menu
+└── pages/              # Páginas da aplicação
+    └── Index.tsx               # Página principal
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🔌 API Endpoints
 
-## What technologies are used for this project?
+O aplicativo consome os seguintes endpoints da API backend2025-pizzademo:
 
-This project is built with:
+- `GET /menu` - Lista todos os itens do menu
+- `GET /menu/{id}` - Obtém detalhes de um item específico
+- `POST /menu` - Cria um novo item do menu
+- `PUT /menu/{id}` - Atualiza um item existente
+- `DELETE /menu/{id}` - Remove um item do menu
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Formato dos Dados
 
-## How can I deploy this project?
+```typescript
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image?: string;
+  ingredients?: string[];
+  available: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+```
 
-Simply open [Lovable](https://lovable.dev/projects/e3475731-0c3a-4106-a960-32a463e4a30f) and click on Share -> Publish.
+## 🎯 Como Usar
 
-## Can I connect a custom domain to my Lovable project?
+### Listagem
+- A tela principal exibe todos os itens do menu em cards
+- Use a barra de busca para filtrar por nome ou descrição
+- Clique nos botões de categoria para filtrar por tipo
+- Visualize estatísticas do menu no topo da página
 
-Yes, you can!
+### Visualizar Detalhes
+- Clique no botão "Ver" em qualquer card
+- Modal será aberto com informações completas do item
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Adicionar Item
+- Clique no botão "Adicionar Item" no topo da página
+- Preencha o formulário com as informações do novo item
+- Campos obrigatórios: nome, descrição, preço, categoria
+- Clique em "Adicionar" para salvar
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Editar Item
+- Clique no botão "Editar" no card do item desejado
+- Formulário será aberto com dados pré-preenchidos
+- Modifique os campos necessários
+- Clique em "Atualizar" para salvar
+
+### Remover Item
+- Clique no botão "Excluir" no card do item
+- Confirme a exclusão na janela de confirmação
+
+## 🤖 Prompts do GitHub Copilot Utilizados
+
+Durante o desenvolvimento, os seguintes prompts foram utilizados com o GitHub Copilot:
+
+1. "Create a TypeScript interface for a pizza menu item with all necessary properties"
+2. "Generate a fetch-based API service class for CRUD operations on menu items"
+3. "Create a custom React hook for managing menu items state with error handling"
+4. "Build a responsive card component for displaying menu items with action buttons"
+5. "Create a modal component for displaying detailed menu item information"
+6. "Generate a form component for adding and editing menu items with validation"
+7. "Create a main component that combines all menu functionality with search and filters"
+8. "Add loading states and error handling to the menu management interface"
+9. "Implement toast notifications for user feedback on CRUD operations"
+10. "Create a responsive layout with statistics cards and filter options"
+
+## 🎨 Decisões de Design
+
+- **shadcn/ui**: Escolhido para componentes consistentes e acessíveis
+- **Tailwind CSS**: Para estilização rápida e responsiva
+- **TypeScript**: Para maior segurança de tipos e melhor DX
+- **Hooks Customizados**: Para separação de lógica de negócio e UI
+- **Modais**: Para melhor UX em formulários e detalhes
+- **Cards**: Layout familiar e atrativo para exibir itens
+
+## 🚀 Scripts Disponíveis
+
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run preview` - Visualiza o build de produção
+- `npm run lint` - Executa linting do código
+
+## 📝 Próximas Melhorias
+
+- [ ] Implementar paginação para muitos itens
+- [ ] Adicionar upload de imagens
+- [ ] Implementar busca avançada
+- [ ] Adicionar ordenação por diferentes critérios
+- [ ] Implementar cache de dados
+- [ ] Adicionar testes unitários
+- [ ] Implementar drag & drop para reordenar
+
+## 🤝 Contribuição
+
+Este projeto foi desenvolvido como atividade acadêmica para demonstrar habilidades de programação apoiada por IA.
+
+## 📄 Licença
+
+Projeto acadêmico - MIT License
